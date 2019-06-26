@@ -23,11 +23,13 @@ Upload all files to the web hosting of your choice.
 
 
 # Projects
-./images/projects/[foldername]
-the ./images/projects directory is parsed to create subsections of the gallery akin to blog posts with images. An example folder "2019.01.01Infiniti Wash" exists as an example. Folders must always follow the pattern [YYYYMMDD-date][Postname] and contain at least one jpg, jpeg, or png image. An image with the text "main" in the name will be used as the primary image for the project.
+./images/projects
+
+The ./images/projects directory is parsed to create subsections of the gallery akin to blog posts with images. An example folder "2019.01.01Infiniti Wash" exists as an example. Folders must always follow the pattern [YYYYMMDD-date][Postname] and contain at least one jpg, jpeg, or png image. An image with the text "main" in the name will be used as the primary image for the project.
 An optional file data.json in the individual projects directory specifies optional text, author, and service to be used in the post. By default up to three most recent projects will be linked on the site.
 You may also put a text.txt file which will be used for text in the case of unfamiliarity with json files.
 
 # Gallery
 ./images/gallery
-Gallery images must be listed 1-∞ and should inclube both a `before` `b` and `after` `a` image. For example "001before.jpg" or "33b.png"
+
+For all functions of the gallery to work, images should be listed 1-∞ and should include both a `before` `b` and `after` `a` image. For example "001before.jpg" or "33b.png"
