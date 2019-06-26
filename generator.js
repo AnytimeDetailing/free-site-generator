@@ -1,14 +1,14 @@
 //System
 const { lstatSync, readdirSync } = require('fs');
 const { join } = require('path');
+const fs = require('fs');
 const path = require('path');
 
-//general posts
-var Handlebars = require('handlebars');
-var fs = require('fs');
-var _ = require('lodash');
+//general libraries
+const _ = require('lodash');
 
 //specialized
+var Handlebars = require('handlebars');
 var moment = require('moment');
 
 //external vars and scripts
@@ -79,11 +79,74 @@ var mainpage_order = ['head','topbar','header','nav','carousel','workingprocess'
 var servicepage_order = ['head','topbar','header','nav','servicedetails','ticker','footer','scripts']
 var gallerypage_order = ['head','topbar','header','nav','gallery','projects','testimonials','ticker','footer','scripts'] //,'temp'
 var project_order = ['head','topbar','header','nav','page','testimonials','ticker','footer','scripts'] // 'gallerymini'
-var project_order = ['head','topbar','header','nav','page','testimonials','ticker','footer','scripts'] // 'gallerymini'
 var reviews_order = ['head','topbar','header','nav','note','page','testimonials','ba-ticker','footer','scripts']
 var tos_order = ['head','topbar','header','nav','page','testimonials','footer','scripts']
 
 
+
+
+
+// /--\--/--\--/--\
+// Build gallery data
+// \--/--\--/--\--/
+console.log("building gallery")
+var files = fs.readdirSync(process.cwd() + "/images/gallery", {encoding: 'utf8', withFileTypes: true});
+
+galleryarray =  _.filter(files, function(o) {
+    // filter out any files that are not images
+    return /\.png|\.jpeg|\.jpg/gi.test(o.name);
+})
+galleryarray = galleryarray.map(obj => {
+    if (_.includes(_.toLower(obj.name),"before") || _.includes(_.toLower(obj.name),"b")) {
+        var line1 = "Before";
+    } else {
+        var line1 = "After";
+    }
+    return {
+       img: obj.name,
+       line1: line1
+    }
+});
+data.gallery = _.clone(galleryarray);
+
+//Generate a smaller sample of the gallery for use in ticker and sidebars
+var gallerybeforeimages =  _.filter(galleryarray, function(o) { return o.line1 == "Before"; });
+var galleryafterimages =  _.filter(galleryarray, function(o) { return o.line1 == "After"; });
+// var findnumber_regex = /(\d+)/g;
+
+if (gallerybeforeimages.length >= 4) {
+    console.log("building sample gallery");
+    //pair off gallery images by subtracting from the array till there are 4 or less images remaining
+        //we can't be sure the enduser has a match for every image so gracefully exit if fails
+    var paired_array = [];
+    while(gallerybeforeimages.length >= 4) {
+        for (let index = 0; index < gallerybeforeimages.length; index++) {
+            var selection = gallerybeforeimages.splice(Math.floor(Math.random()*gallerybeforeimages.length), 1).pop()
+            findnumber_match = /(\d+)/g.exec(selection.img);
+            //find possible match for this gallery image
+            for (let index2 = 0; index2 < galleryafterimages.length; index2++) {
+                const element = galleryafterimages[index2];
+                var elementmatch = /(\d+)/g.exec(element.img)
+                if (elementmatch[0] == findnumber_match[0]) {
+                    // console.log("match found for " + findnumber_match[0] + ":" + elementmatch[0])
+                    paired_array.push([selection,element])
+                    break
+                }
+            }
+        }
+    }
+}
+//save the samplegallery based off how many images the user has supplied
+if (galleryarray.length > 14) {
+    if (paired_array.length < 14) {
+        data.samplegallery = galleryarray.splice(1,14);
+    } else {
+        //flatten the paired array so it is usable as a ticker gallery
+        data.samplegallery = _.flattenDeep(_.sampleSize(paired_array,7)); //random mix of paired images 
+    }
+} else {
+    data.samplegallery = galleryarray; //something gone awry, just use everything
+}
 
 
 
@@ -154,7 +217,7 @@ projectdirs.forEach(element => {
     }
     data.projects.push(_.merge({},l_project,jsonfile));
 });
-console.log(data.projects)
+// console.log(data.projects)
 
 
 // Select [3] most recent projects from all projects
@@ -162,7 +225,6 @@ data.recentprojects = _.orderBy(data.projects, function(o) {
     return new moment(o.date);
 }, ['desc']);
 data.recentprojects = data.recentprojects.slice(0,3)
-console.log(data.recentprojects)
 
 // Actually build EACH page project page and write to disk
 data.projects.forEach( element => {
@@ -190,7 +252,7 @@ data.projects.forEach( element => {
 
 
 //build top level gallery
-data.page.title = data.name + " - Gallery"
+data.page.title = data.companyname + " - Gallery"
 var page = fn_buildpage(gallerypage_order, data)
 fs.writeFile("gallery.html", page, function(err) {
     if (err) {
@@ -201,7 +263,7 @@ fs.writeFile("gallery.html", page, function(err) {
 
 //build main page
     //Do cities pages here?
-data.page.title = data.name + " - " + data.city
+data.page.title = data.companyname + " - " + data.city
 var mainpage = fn_buildpage(mainpage_order, data)
 fs.writeFileSync("index.html", mainpage, function(err) {
     if (err) {
@@ -212,7 +274,7 @@ fs.writeFileSync("index.html", mainpage, function(err) {
 
 //build supplimental service pages
 data.services.forEach(element => {
-    data.page.title = data.name + " - " + element.name
+    data.page.title = data.companyname + " - " + element.name
     var page = fn_buildpage(servicepage_order, data, element)
     fs.writeFile(fn_BuildSlugSegment(element.name) + ".html", page, function(err) {
         if (err) {
@@ -224,7 +286,7 @@ data.services.forEach(element => {
 
 
 //build reviews
-data.page.title = data.name + " - Reviews"
+data.page.title = data.companyname + " - Reviews"
 data.note = [{label: "<span>Get</span> Rewarded", text: "Your feedback helps others and encourages us to do even better. Thank you.<br><br>Please let us know if you've left a recent review and we'll be sure to find a way to reward you in the near future or on your next detail.", img: "images/customers/reviews.jpg", icon: "icon-pricetag"}]
 data.page.sections = [
     {html: '<h3>Please consider submitting feedback to the following:</h3>'},
@@ -246,7 +308,7 @@ for (let index = 0; index < tos.sections.length; index++) {
     tos.sections[index].text = _.replace(element,/({{ \w+ }})/g, data.name) // _.replace("{{ Company }}")
 }
 data.page.sections = tos.sections;
-data.page.title = data.name + " - Terms of Service"
+data.page.title = data.companyname + " - Terms of Service"
 var page = fn_buildpage(tos_order, data)
 fs.writeFile("tos.html", page, function(err) {
     if (err) {
