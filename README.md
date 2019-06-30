@@ -3,16 +3,23 @@ This is a multi-page starter website for detailers or car related businesses. It
 
 ## Installation and Requirements
 
+You must have NodeJS and npm. They are packaged together here: https://nodejs.org/en/download/
+
+Download this repo:
+
 `npm install AnytimeDetailing/free-site-generator`
 
-You must have NodeJS and npm. They can be installed at the same time here: https://nodejs.org/en/download/
+Download dependancies:
+
+`npm install`
+
 
 ## Usage
 
 The following files should be modified to reflect the site you want to start:
 
-data.js
-tos.js
+* data.js
+* tos.js
 
 This process can be aided by a sytax highlighting editor such as Visual Studio Code: https://code.visualstudio.com/
 
