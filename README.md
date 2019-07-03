@@ -1,5 +1,5 @@
 # free-site-generator
-This is a multi-page starter website for detailers or car related businesses. It is responsive (meaning it works great on cellphones and devices of any screen size) and is cheap to host online.
+This is a multi-page starter website for detailers or car related businesses. It is responsive (meaning it works great on cellphones and devices of any size) and is designed with the following in mind: Easy to add new galleries of images, cheap to host online, extendable for new services and features, SEO friendliness, and scalable to any number of products or services.
 
 ## Installation and Requirements
 
@@ -27,7 +27,7 @@ Run the generator to create all pages
 
 `node generator.js`
 
-Upload all files to the web hosting of your choice.
+Upload all resulting html files to the web hosting of your choice.
 
 
 
@@ -35,7 +35,7 @@ Upload all files to the web hosting of your choice.
 ./images/projects
 
 The directory is parsed to create subsections of the gallery akin to blog posts with images. An example folder "2019.01.01Infiniti Wash" exists as an example. Folders must always follow the pattern [YYYYMMDD-date][Postname] and contain at least one jpg, jpeg, or png image. An image with the text "main" in the name will be used as the primary image for the project.
-An optional file data.json in the individual projects directory specifies optional text, author, and service to be used in the post. By default up to three most recent projects will be linked on the site.
+An optional file data.json in the individual projects directory specifies optional text, author, and service to be used in the post. By default only three of the most recent projects will be linked on the site.
 
 In the case of unfamiliarity with json files; a file named "text.txt" can be used for the text portion.
 
