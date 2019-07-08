@@ -1,5 +1,9 @@
 # free-site-generator
-This is a multi-page starter website for detailers or car related businesses. It is responsive (meaning it works great on cellphones and devices of any size) and is designed with the following in mind: Easy to add new galleries of images, cheap to host online, extendable for new services and features, SEO friendliness, and scalable to any number of products or services.
+This is a multi-page starter website for detailers or car related businesses. It is responsive (meaning it works great on cellphones and devices of any size)
+
+Developed with following in mind: Easy to add new galleries of images, cheap to host online, extendable for new services and features, SEO friendliness, scalable to any number of products or services.
+
+The following were minor considerations: Render copies for multiple cities/company names/domain names
 
 ## Installation and Requirements
 
