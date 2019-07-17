@@ -9,7 +9,7 @@ The following were minor considerations: Render copies for multiple cities/compa
 
 You must have NodeJS and npm. They are packaged together here: https://nodejs.org/en/download/
 
-Download this repo:
+Download this repo, in a command prompt or terminal after installing NodeJS and npm:
 
 `npm install AnytimeDetailing/free-site-generator`
 
@@ -47,3 +47,21 @@ In the case of unfamiliarity with json files; a file named "text.txt" can be use
 ./images/gallery
 
 For all functions of the gallery to work, images should be listed 1-∞ and should include both a `before` `b` and `after` `a` image. For example "001before.jpg" or "33b.png"
+
+# Misc Pages
+./generatorpages
+
+You can define custom pages by adding compliant `pagename`.json files in this directory. A mostly blank Terms of Service (tos.json) and Reviews (Reviews.json) exist as examples. Other ideas to complete on your own may be a signup confirmation page, FAQ, or customer preparation guide.
+
+
+
+## Value for Value
+
+This project is offered to fellow professional detailers and auto businesses and is made available by the [value for value model](https://levisan.me/blog/value-for-value); in which you finacially support the project according to the level of value you have recieved from it. You can send that value to https://paypal.me/chunjee
+
+```Please give value in the amount that you feel this product is worth, otherwise "the system" will set the price for you.```
+
+
+## Support
+
+Can't figure something out? Need help uploading it to the internet? Need a customization coded? I am available for a reasonable hourly rate, you can reach me via [facebook](https://www.facebook.com/shawnbrooker) or github.
