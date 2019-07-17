@@ -1,0 +1,62 @@
+   <div class="banner-area bg-overlay" id="banner-area" style="background-image:url(images/banner/{{ random banners }}.jpg);">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="banner-heading">
+                  <h1 class="banner-title">Before <span>/After</span> Gallery</h1>
+                  <ol class="breadcrumb">
+                     <li>Home</li>
+                     <li><a href="#">Gallery</a></li>
+                  </ol><!-- Breadcumb End -->
+               </div><!-- Banner Heading end -->
+            </div><!-- Col end-->
+         </div><!-- Row end-->
+      </div><!-- Container end-->
+   </div><!-- Banner area end-->
+
+    <section id="main-container" class="main-container">
+        <div class="ts-gallery">
+            <div class="container">
+                <div class="row">
+                  {{#each gallery}}
+                  <div class="col-lg-3 col-md-6">
+                  <div class="img-gallery">
+                     <a class="gallery-popup" href="images/gallery/{{ this.img }}" title="Anytime Detailing">
+                        <img class="img-fluid" src="images/gallery/{{ this.img }}" alt="">
+                        <div class="gallery-content">
+                            <h3>{{ this.line1 }}</h3>
+                            <p>{{ this.line2 }}</p>
+                        </div>
+                     </a>
+                  </div>
+                  </div><!-- Col end -->
+                  {{/each}}
+                </div><!-- Row End -->
+                <!-- Takes place in a different block. Section for each larger project of multiple pictures -->
+                <!-- {{#if projects}}
+                <div class="row">
+                     <div class="col-md-12">
+                        <h2 class="section-title">
+                           <span>Work</span> Gallery
+                        </h2>
+                     </div>
+               </div>
+                  {{#each projects}}
+                  {{#ifCond @index '<' 3}}
+                  <div class="col-lg-4 col-md-6">
+                     <div class="img-gallery">
+                        <a href="{{ urlize this.name }}-{{ urlize this.humandate }}.html" title="Image 1">
+                           <img class="img-fluid" src="images{{ this.dir }}/{{ this.img }}" alt="">
+                              <div class="gallery-content">
+                                 <h3>test1</h3>
+                                 <p>test2</p>
+                              </div>
+                        </a>
+                     </div>
+                  </div>
+                  {{/ifCond}}
+                  {{/each}}
+               {{/if}} -->
+            </div><!-- Container End -->
+        </div><!-- Ts Gallery End -->
+    </section><!-- Main container end -->

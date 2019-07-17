@@ -1,0 +1,37 @@
+<section id="ts-service-bg" class="ts-service-bg bg-overlay">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title text-white">
+                <span>Services</span> We Provide
+            </h2>
+        </div> <!-- Col End -->
+        </div> <!-- Row End -->
+    </div><!-- Container end -->
+</section> <!-- Service BG end -->
+
+<section id="ts-ectservice" class="ts-service pb-0">
+    <div class="container">
+        <div class="row">
+        <div class="service-carousel owl-carousel">
+            {{#each services}}
+            <div class="col-md-12">
+                <div class="ts-service-wrapper">
+                    <span class="service-img">
+                        <img class="img-fluid" src="{{ this.img }}" alt="{{ this.alt }}">
+                    </span> <!-- Service Img end -->
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="{{ this.icon }}"></i>
+                        </div> <!-- Service icon end -->
+                        <h3><a href="{{ urlize this.name }}.html">{{ this.name }}</a></h3>
+                        <p>{{ this.desc }}</p>
+                        <a href="{{ urlize this.name }}.html" class="readmore">Read more<i class="fa fa-angle-double-right"></i></a>
+                    </div> <!-- Service content end -->
+                </div> <!-- Service wrapper end -->
+                </div> <!-- Col end -->
+            {{/each}}
+        </div> <!-- Service Carousel -->
+        </div> <!-- Row End -->
+    </div> <!-- Container end -->
+</section> <!-- Service end -->

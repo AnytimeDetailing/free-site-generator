@@ -1,0 +1,17 @@
+<section id="ts-pertner" class="ts-pertner solid-bg">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="partner-carousel owl-carousel">
+                   {{#each tickers}}
+                  <figure class="partner-item partner-logo">
+                        {{#if this.url}}<a href="{{ this.url }}">{{/if}}
+                        <img class="img-fluid" src="{{ this.img }}" alt="">
+                        {{#if this.url}}</a>{{/if}}
+                  </figure> <!-- Figure end -->
+                  {{/each}}
+               </div> <!-- Partner carousel end -->
+            </div> <!-- Col end -->
+         </div> <!-- Row end -->
+      </div> <!-- Container end -->
+   </section> <!-- Partner end -->

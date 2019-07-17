@@ -1,0 +1,56 @@
+<section id="ts-detailpackages-bg" class="ts-service-bg bg-overlay">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title text-white">
+                <span>Detailing</span> Packages
+            </h2>
+        </div> <!-- Col End -->
+        </div> <!-- Row End -->
+    </div><!-- Container end -->
+</section> <!-- Service BG end -->
+
+<section id="ts-service" class="ts-service pb-0">
+    <div class="container">
+        <div class="row">
+        <div class="service-carousel owl-carousel">
+            {{#each packages}}
+            <div class="col-md-12">
+                    <div class="ts-service-wrapper">
+                        <span class="service-img">
+                        <img class="img-fluid" src="{{ this.img }}" alt="">
+                        </span> <!-- Service Img end -->
+                        <div class="service-content">
+                        <div class="service-icon">
+                            <i class="{{ this.icon }}"></i>
+                        </div> <!-- Service icon end -->
+                        <h3><a href="full-range-detailing.html">{{ this.name }}</a></h3>
+                        <!-- <p class="text-green">Sedan $198 - L.SUV $278</p> -->
+                        <div class="col-sm-12"><a href="{{ this.url }}" class="btn btn-primary">Order<br>Sedans: ${{ this.cost }}</a></div>
+                        <p class="text-muted">Aprox. {{ this.time }} hours depending on car and condition</p>
+                        <p>Exterior:</p>
+                        <ul>
+                            {{#each this.exterior}}
+                                <li>{{ this }}</li>
+                            {{/each}}
+                        </ul>
+                        <p>Interior:</p>
+                        <ul>
+                            {{#each this.interior}}
+                                <li>{{ this }}</li>
+                            {{/each}}
+                            {{#ifCond @index '==' 1}}
+                                <br><li>and more</li>
+                            {{/ifCond}}
+                            {{#ifCond @index '==' 2}}
+                                <br><li>and much, much more</li>
+                            {{/ifCond}}
+                        </ul>
+                        </div> <!-- Service content end -->
+                    </div> <!-- Service wrapper end -->
+                </div> <!-- Col end -->
+            {{/each}}
+        </div> <!-- Service Carousel -->
+        </div> <!-- Row End -->
+    </div> <!-- Container end -->
+</section> <!-- Service end -->

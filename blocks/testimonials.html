@@ -1,0 +1,33 @@
+   <section id="ts-testimonial-standard" class="ts-testimonial-standard solid-bg">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="testimonial-standard owl-carousel">
+                  {{#each testimonials}}  
+                  <div class="testimonial-item-single with-bg">
+                     <div class="quote-item">
+                        <img class="img-fluid" src="images/customers/{{ this.img }}" alt="{{ this.name }}'s profile picture'">
+                        <div class="quote-item-info">
+                           <h3 class="quote-author">{{ this.name }}</h3>
+                           <span class="quote-subtext">{{ this.car }}</span>
+                        </div>
+                     </div> <!-- Item End -->
+                     <p class="quote-text">{{{ this.text }}}</p>
+                     <div class="quote-ratings">
+                        <h4 class="service-name">{{ this.service }}</h4>
+                        <ul class="unstyled ts-rating">
+                            {{#times this.stars}}
+                            <li><i class="fas fa-star"></i></li>
+                            {{/times}}
+                            {{#ifCond this.stars '<' 5}}
+                            <li><i class="fas fa-star-half-alt"></i></li>
+                            {{/ifCond}}
+                        </ul>
+                     </div><!-- Quote Ratings end -->
+                  </div><!-- Testimonial item end -->
+                  {{/each}}
+               </div><!-- testimonial carousel end -->
+            </div> <!-- Col end -->
+         </div> <!-- Row End -->
+      </div> <!-- Container End -->
+   </section><!-- Testimonial Standard -->

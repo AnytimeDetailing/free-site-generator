@@ -1,0 +1,121 @@
+   <section id="main-container" class="main-container pb-120">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="post-content post-single">
+
+                  {{#each page.sections}}
+                  {{#if this.mainimg}}
+						<div class="post-media post-image">
+							<img src="images{{ this.dir }}/{{ this.mainimg }}" class="img-fluid" alt="{{ this.name }}"> <!-- 1110x442 -->
+                     <div class="post-date">
+                        <span class="day">{{ this.date_D }}</span>
+                        <span class="month">{{ this.date_MMM }}</span>
+                     </div> <!-- Post Date End -->
+                  </div>
+                  {{/if}}
+                  {{/each}}
+
+						<div class="post-body clearfix">
+                     <div class="entry-header">
+                        {{#if page.meta}}
+                        <div class="post-meta">
+                           {{#if page.author}}
+                           <span class="post-author">
+                              <img class="avatar" alt="" src="images/news/avatar1.png">
+                              <a href="projects.html">By Admin</a>
+                           </span>
+                           {{/if}}
+                           {{#if categories}}
+                           <span class="post-cat">
+                              {{#each categories}}
+                              <i class="icon icon-folder"></i><a href="{{ this.url }}">{{ this.text }}</a>
+                              {{/each}}
+                           </span>
+                           <!-- <span class="post-comment"><i class="icon icon-comment"></i><a href="#" class="comments-link"></a>07</span> -->
+                           {{/if}}
+                        </div>
+                        {{/if}}
+                        <!-- <h2 class="entry-title">
+                           {{ page.title }}
+                        </h2> -->
+                     </div><!-- header end -->
+                     
+
+                     <div class="entry-content">
+                     {{#each page.sections}}
+                        {{#if label}}<h3>{{ this.label }}</h3>{{/if}}
+                        {{#if text}}<p>{{{ this.text }}}</p>{{/if}}
+                        {{#if html}}{{{ this.html }}}{{/if}}
+                        {{#if gallerymini}}
+                        <div class="row">
+                           {{#each this.gallerymini}}
+                              <div class="col-lg-3 col-md-6">
+                                 <div class="img-gallery">
+                                    <a class="gallery-popup" href="images{{ this.dir }}/{{ this.img }}" title="Anytime Detailing">
+                                       <img class="img-fluid" src="images{{ this.dir }}/{{ timg this.img }}" alt="">
+                                       <div class="gallery-content">
+                                          {{#if this.line1}}<h3>{{ this.line1 }}</h3>{{/if}}
+                                          {{#if this.line2}}<p>{{ this.line2 }}</p>{{/if}}
+                                       </div>
+                                    </a>
+                                 </div>
+                              </div><!-- Col end -->
+                           {{/each}}
+                        </div><!-- Row End -->
+                        {{/if}}
+                     {{/each}}
+                     </div><!-- entry content end -->
+
+
+                     {{#if tags}}
+                     <div class="post-footer clearfix">
+                        <div class="post-tags pull-left">
+                           <strong>Tags: </strong>
+                           {{#each tags}}
+                           <a href="#">{{ this }}</a>
+                           <!-- <a href="#">Car</a> -->
+                           {{/each}}
+                        </div><!-- Post tags end -->
+                        <div class="share-items pull-right">
+                           <ul class="post-social-icons unstyled">
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                              <!-- <li><a href="#"><i class="fa fa-google-plus"></i></a></li> -->
+                              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                              <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                           </ul>
+                        </div><!-- Share items end -->
+                     </div><!-- Post footer end -->
+                     {{/if}}
+						</div><!-- post-body end -->
+					</div><!-- Post content end -->
+
+               {{#if author}}
+               <div class="author-box solid-bg">
+                  <div class="author-img pull-left">
+                     <img src="images/news/{{ author.img }}" alt="">
+                  </div>
+                  <div class="author-info">
+                     <ul class="post-social-icons pull-right unstyled">
+                        {{#each social_media}}
+                        <li><a href="{{ this.url }}"><i class="{{ this.icon }}"></i></a></li>
+                        {{/each}}
+                    </ul>
+                     <h3>{{ author.name }}</h3>
+                     <p class="author-url"><a href="{{ author.url }}">{{ author.site }}</a></p>
+                     <p>{{ author }}</p>
+               </div> <!-- Author box end -->
+               {{/if}}
+
+               
+               {{#each page.sections}}
+                  {{#if this.mainimg}}
+                  <h3><a href="projects.html" class="">See more project posts <i class="fas fa-angle-double-right"></i></a></h3>
+                  {{/if}}
+               {{/each}}
+            </div><!-- Sidebar Col end -->
+			</div><!-- Main row end -->
+		</div><!-- Container end -->
+   </section><!-- Main container end -->
+   

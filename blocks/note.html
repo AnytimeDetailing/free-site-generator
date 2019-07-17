@@ -1,0 +1,28 @@
+    {{#each note}}
+    <section id="main-container" class="main-container pb-0">
+      <div class="ts-pricing-intro">
+         <div class="container">
+            <div class="row overflow-hidden">
+               <div class="col-lg-7 col-md-12">
+                  <div class="box-skew-hidden-left">
+                     <div class="box-skew-left">
+                        <img class="img-fluid" src="{{ this.img }}" alt="">
+                     </div><!-- Box skew left -->
+                  </div>
+               </div> <!-- Col End -->
+               <div class="col-lg-5 col-md-12">
+                  <div class="box-skew-right">
+                     <div class="box-content-wrapper">
+                        <i class="{{ this.icon }}"></i>
+                        <h2 class="column-title no-border">
+                           {{{ this.label }}}
+                        </h2>
+                        <p>{{{ this.text }}}</p>
+                     </div> <!-- Content wrapper end -->
+                  </div> <!-- Content Right End -->
+               </div> <!-- Col end -->
+           </div>
+         </div>
+      </div>
+   </section><!-- Main container end -->
+   {{/each}}

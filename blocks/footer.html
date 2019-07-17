@@ -1,0 +1,107 @@
+<br>
+<footer class="footer" id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-box">
+                    <!-- <i class="fas fa-map-marker-alt fa-3x" style="color: white;"></i> -->
+                    <i class="icon icon-map-marker2"></i>
+                    <div class="footer-box-content">
+                        <h3>{{ city }}, {{ state }}</h3>
+                        <!-- <p></p> -->
+                    </div>
+                </div><!-- Box 1 end-->
+                <div class="col-md-4 footer-box">
+                    <i class="icon icon-phone3"></i>
+                    <div class="footer-box-content">
+                        <h3>{{ phonenumber }}</h3>
+                        <p>Give us a call</p>
+                    </div>
+                </div><!-- Box 2 end-->
+                <div class="col-md-4 footer-box">
+                    <i class="icon icon-envelope"></i>
+                    <div class="footer-box-content">
+                        <p>{{ contactemail }}</p>
+                        <p>Online support</p>
+                    </div>
+                </div><!-- Box 3 end-->
+            </div><!-- Content row end-->
+        </div><!-- Container end-->
+    </div><!-- Footer top end-->
+    <div class="footer-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 footer-widget footer-about">
+                    <div class="footer-logo">
+                        <a href="index.html">
+                            <img class="img-fluid" src="images/logo/footer_logo.png" alt="">
+                        </a>
+                    </div>
+                    <p>Our #1 goal is complete customer satisfaction.</p>
+                    <div class="footer-social">
+                        <ul class="unstyled">
+                            {{#each social_media}}
+                            <li><a href="{{ this.url }}"><i class="{{ this.icon }}"></i></a></li>
+                            {{/each}}
+                        </ul> <!-- Ul end -->
+                    </div><!-- Footer social end-->
+                </div> <!-- Col End -->
+                <!-- About us end-->
+                <div class="col-lg-3 col-md-6 footer-widget widget-service">
+                    <h3 class="widget-title"><span>Our</span> Services</h3>
+                    <ul class="unstyled">
+                        {{#each services}}
+                        <li><a href="{{ urlize this.name}}.html">{{ this.name }}</a></li>
+                        {{/each}}
+                    </ul> <!-- Ul end -->
+                </div> <!-- Col End -->
+                <div class="col-lg-3 col-md-6 footer-widget news-widget">
+                    <h3 class="widget-title"><span>Latest</span> Projects</h3>
+                <ul class="unstyled">
+                    {{#each recentprojects}}
+                    <li class="news-text">
+                    <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html"><span>{{ this.name }}</span></a>
+                    <span>{{ this.date_human }}</span>
+                    </li>
+                    {{/each}}
+                    <a href="projects.html" class="readmore">See all<i class="fa fa-angle-double-right"></i></a>
+                </ul> <!-- End Ul -->
+                </div> <!-- Col End -->
+                <div class="col-lg-3 col-md-6 footer-widget">
+                    <h3 class="widget-title"><span>Service</span> Hours</h3>
+                    <ul class="unstyled service-time">
+                        {{#each hours.week}}
+                        <li>
+                            <span>{{ this.name }}</span>
+                            <span>{{ this.string }}</span>
+                        </li>
+                        {{/each}}
+                    </ul> <!-- Service Time -->
+                </div> <!-- Col End -->
+            </div><!-- Content row end-->
+        </div><!-- Container end-->
+    </div><!-- Footer Main-->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="copyright-info"><span>Copyright © 2019</span></div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="footer-menu">
+                        <ul class="nav unstyled">
+                        {{#each footerlinks}}
+                            <li><a href="{{ this.url }}">{{ this.text }}</a></li>
+                        {{/each}}
+                        </ul> <!-- Nav End -->
+                    </div> <!-- Footer menu end -->
+                </div> <!-- Col End -->
+            </div><!-- Row end-->
+        </div><!-- Container end-->
+        <div class="back-to-top" id="back-to-top" data-spy="affix" data-offset-top="10" style="display: block;">
+            <button class="back-btn" title="Back to Top">
+                <i class="fas fa-angle-double-up"></i><!-- icon end-->
+            </button><!-- button end-->
+        </div><!-- Back to top -->
+    </div><!-- Copyright end-->
+</footer> <!-- Footer End -->

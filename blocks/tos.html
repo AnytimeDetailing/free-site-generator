@@ -1,0 +1,94 @@
+   <section id="main-container" class="main-container pb-120">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-lg-12 col-md-12">
+					<div class="post-content post-single">
+                  {{#if img}}
+						<div class="post-media post-image">
+							<img src="images/news/post-img1.jpg" class="img-fluid" alt="">
+                     <div class="post-date">
+                        <span class="day">21</span>
+                        <span class="month">May</span>
+                     </div> <!-- Post Date End -->
+                  </div>
+                  {{/if}}
+
+						<div class="post-body clearfix">
+                     <div class="entry-header">
+                        <div class="post-meta">
+                           {{#if author}}
+                           <span class="post-author">
+                              <img class="avatar" alt="" src="images/news/avatar1.png">
+                              <a href="#">By Admin</a>
+                           </span>
+                           {{/if}}
+                           {{#if categories}}
+                           <span class="post-cat">
+                              <i class="icon icon-folder"></i><a href="#">Repearing Engine</a>
+                           </span>
+                           <span class="post-comment"><i class="icon icon-comment"></i><a href="#" class="comments-link"></a>07</span>
+                           {{/if}}
+                        </div>
+                        <h2 class="entry-title">
+                           {{ this.title}}
+                        </h2>
+                     </div><!-- header end -->
+                     
+                     <div class="entry-content">
+                     {{#each sections}}
+                        <h3>{{ this.label }}</h3>
+                        <p>{{{ this.text }}}</p>
+                        <br>
+                     {{/each}}
+
+
+                     </div><!-- entry content end -->
+                     {{#if tags}}
+                     <div class="post-footer clearfix">
+                        <div class="post-tags pull-left">
+                           <strong>Tags: </strong>
+                           {{#each tags}}
+                           <a href="#">Car</a>
+                           <a href="#">Repair</a>
+                           <a href="#">Automobile</a>
+                           {{/each}}
+                        </div><!-- Post tags end -->
+                        <div class="share-items pull-right">
+                           <ul class="post-social-icons unstyled">
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                              <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                              <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                           </ul>
+                        </div><!-- Share items end -->
+                     </div><!-- Post footer end -->
+                     {{/if}}
+						</div><!-- post-body end -->
+					</div><!-- Post content end -->
+
+               {{#each author}}
+               <div class="author-box solid-bg">
+                  <div class="author-img pull-left">
+                     <img src="images/news/{{ author.img }}" alt="">
+                  </div>
+                  <div class="author-info">
+                     <ul class="post-social-icons pull-right unstyled">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                     <h3>{{ author.name }}</h3>
+                     <p class="author-url"><a href="{{ author.url }}">{{ author.site }}</a></p>
+                     <p>{{ author }}</p>
+                  </div>
+               </div> <!-- Author box end -->
+               {{/each}}
+
+
+               </div><!-- Sidebar end -->
+            </div><!-- Sidebar Col end -->
+			</div><!-- Main row end -->
+		</div><!-- Container end -->
+	</section><!-- Main container end -->

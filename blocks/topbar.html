@@ -1,0 +1,23 @@
+<div class="ts-top-bar">
+    <div class="top-bar-angle">
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-4"></div>
+            <div class="col-lg-4 col-md-5">
+                <div class="top-bar-event ts-top">
+                    <i class="icon icon-clock"></i><span>We'are Open: {{ hours.general }}</span>
+                </div> <!-- Top Bar Text End -->
+            </div> <!-- Col End -->
+            <div class="col-lg-2 col-md-3 text-right">
+                <div class="top-bar-social-icon ml-auto">
+                    <ul>
+                    {{#each social_media}}
+                    <li><a href="{{ this.url }}"><i class="{{ this.icon }}"></i></a></li>
+                    {{/each}}
+                    </ul>
+                </div> <!-- Social End -->
+            </div><!-- Col End -->
+        </div> <!-- Row End -->
+        </div> <!-- Container End -->
+    </div> <!-- Angle Bar End -->
+</div> <!-- Top Bar End -->

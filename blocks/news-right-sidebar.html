@@ -1,0 +1,156 @@
+<section id="main-container" class="main-container pb-120">
+    <div class="container">
+        <div class="row">
+
+        <div class="col-lg-8">
+            {{#each projects}}
+            <div class="post">
+                <div class="post-media post-image">
+                        {{#if this.img}}
+                        <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">
+                            <img src="images{{ this.dir }}/{{ this.mainimg }}"  class="img-fluid" alt="{{ this.name }}">
+                        </a>
+                        {{/if}}
+                    <!-- Video option -->
+                    {{#if this.videourl}}
+                    <div class="video-btn">
+                        <a href="this.videourl" class="play-btn popup-btn"><i class="icon icon-play"></i></a>
+                    </div>
+                    {{/if}}
+                    <div class="post-date">
+                    <span class="day">{{ this.date_D }}</span>
+                    <span class="month">{{ this.date_MMM }}</span>
+                    </div> <!-- Post Date End -->
+                </div>
+                <div class="post-body clearfix">
+                    <h2 class="entry-title">
+                        <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">{{ this.name }}</a>
+                    </h2>
+                    <div class="post-content">
+                    <div class="entry-content">
+                        <p>{{{ summary this.text }}}</p>
+                    </div>
+                    </div>
+                    <!-- Post content right-->
+                    <div class="entry-header">
+                    <div class="post-meta">
+                        <span class="post-author">
+                            <img class="avatar" alt="{{ this.author }}'s Avatar" src="images/news/shawn_avatar.jpg">
+                            <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">By {{ this.author }}</a>
+                        </span>
+                         <span class="post-cat">
+                            <i class="icon-car_2"></i>
+                            <a href="{{ urlize this.service }}.html">{{ this.service }}</a>
+                        </span>
+                        <!-- <span class="post-tag">
+                            <i class="icon icon-tag"></i>
+                            <a href="#">Repearing, Engine</a>
+                        </span> -->
+                        <span class="post-footer">
+                            <a class="readmore" href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">Read More <i class="fas fa-angle-right"></i>
+                            </a>
+                        </span>
+                    </div>
+                    </div>
+                    <!-- header end-->
+                    <!-- Post meta left-->
+                </div>
+                <!-- post-body end-->
+            </div>
+            <!-- 1st post end-->
+            {{/each}}
+            
+
+            <!-- <div class="paging">
+                <ul class="pagination justify-content-center">
+                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
+                </ul>
+            </div> -->
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+
+            <div class="sidebar sidebar-right">
+
+                <div class="widget widget-search">
+                    <div class="input-group">
+                    <input class="form-control" placeholder="Search" type="search">
+                    <span class="input-group-btn">
+                        <i class="fa fa-search"></i>
+                    </span>
+                    </div>
+                </div>
+
+                <div class="widget recent-posts">
+                    <h3 class="widget-title">Popular Posts <span class="widget-title-dash"></span></h3>
+                    <ul class="unstyled clearfix">
+                    {{#each recentprojects}}
+                    <li class="media">
+                        {{#if this.img}}
+                        <div class="media-left media-middle">
+                            <img class="img-fluid" alt="img" src="images{{ this.dir }}/{{ timg this.img }}"> 
+                        </div>
+                        {{/if}}
+                        <div class="media-body media-middle">
+                            <span class="post-date">
+                                <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html"> {{ this.date_human}}</a>
+                            </span>
+                            <h4 class="entry-title">
+                                <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">{{ this.name }}</a> 
+                            </h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li><!-- each post end-->
+                    {{/each}}
+                    
+
+                    </ul>
+                    
+                </div><!-- Recent post end -->
+
+                <!-- Categories -->
+                <!-- <div class="widget">
+                    <h3 class="widget-title">Categories <span class="widget-title-dash"></span></h3>
+                    <ul class="widget-nav-tabs">
+                    {{#each catigories}}
+                    <li><a href="#">Engine Diagnostics</a> 
+                        <span class="posts-count">(05)</span>
+                    </li>
+                    {{/each}}
+                </ul>
+                </div> -->
+
+                <!-- Archives -->
+                <!-- <div class="widget">
+                    <h3 class="widget-title">Archives <span class="widget-title-dash"></span></h3>
+                    <ul class="widget-nav-tabs">
+                    {{#each archives}}
+                    <li><a href="#">Feburay 2016</a></li>
+                    {{/each}}
+                    </ul>
+                </div> -->
+                
+                <!-- <div class="widget widget-tags">
+                    <h3 class="widget-title">Tags <span class="widget-title-dash"></span></h3>
+
+                    <ul class="unstyled clearfix">
+                        {{#each tags}}
+                    <li><a href="#">Toyota</a></li>
+                        {{/each}}
+                    </ul>
+                </div> -->
+                <!-- Tags end -->
+
+
+            </div><!-- Sidebar end -->
+        </div><!-- Sidebar Col end -->
+
+        </div><!-- Main row end -->
+
+    </div><!-- Container end -->
+</section><!-- Main container end -->

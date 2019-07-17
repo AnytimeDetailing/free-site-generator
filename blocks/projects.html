@@ -1,0 +1,62 @@
+    <section id="main-container" class="main-container pb-120">
+		<div class="container">
+            <h2 class="section-title">
+                <span>Recent</span> Projects
+            </h2>
+			<div class="row">
+            {{#each recentprojects}}
+            <!-- {{#ifCond @index '<' 3}} -->
+                <div class="col-md-4">
+                    <div class="post">
+                        <div class="post-media post-image">
+                            <!-- 350x260 -->
+                            <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">
+                                <img class="img-fluid" src="images{{ this.dir }}/{{ this.mainimg }}" alt="{{ this.name }} before/after">
+                            </a>
+                            <div class="post-date">
+                                <span class="day">{{ this.date_D }}</span>
+                                <span class="month">{{ this.date_MMM }}</span>
+                            </div> <!-- Post Date End -->
+                        </div>
+                        <div class="post-body clearfix">
+                            <h2 class="entry-title">
+                                <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">{{ this.name }}</a>
+                            </h2>
+                            <div class="post-content">
+                                <!-- <div class="entry-content">
+                                <p>{{ this.desc }}</p>
+                                </div> -->
+                            </div>
+                            <!-- Post content right-->
+                            <div class="entry-header">
+                                <div class="post-meta">
+                                    {{#if this.service}}
+                                    <span class="post-cat">
+                                        <i class="icon-car_2"></i>
+                                        <a href="{{ urlize this.service }}.html">{{ this.service }}</a>
+                                    </span>
+                                    {{/if}}
+                                    {{#if this.author}}
+                                    <br>
+                                    <span class="post-author">
+                                        <img class="avatar" alt="{{ this.author }}'s Avatar" src="images/news/avatar1.png">                                        
+                                        <a href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">By {{ this.author }}</a>
+                                    </span>
+                                    {{/if}}
+                                    <span class="post-footer">
+                                        <a class="readmore" href="{{ urlize this.date_machine }}-{{ urlize this.name }}.html">View <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- header end-->
+                            <!-- Post meta left-->
+                        </div>
+                        <!-- post-body end-->
+                    </div> <!-- 1st post end-->
+                </div>
+            <!-- {{/ifCond}} -->
+            {{/each}}
+			</div><!-- Main row end -->
+		</div><!-- Container end -->
+	</section><!-- Main container end -->
