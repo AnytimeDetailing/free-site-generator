@@ -1,0 +1,13 @@
+{
+    "order": ["head","topbar","header","nav","page","testimonials","footer","scripts"],
+
+    "sections": [
+        {"label": "Servicing Your Vehicle",
+        "text": ""},
+    
+        {"label": "Personal Information",
+        "text": "{{ Company }} may collect personal identifing information."},
+        
+        {"label": "Summary",
+        "text": "Copyright {{ companyname }} 2019"}]
+}

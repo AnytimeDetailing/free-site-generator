@@ -1,0 +1,15 @@
+{
+    "order": ["head","topbar","header","nav","note","page","testimonials","ba-ticker","footer","scripts"],
+
+    "note": [{
+        "label": "<span>Get</span> Rewarded", 
+        "text": "Your feedback helps others and encourages us to do even better. Thank you.<br><br>Please let us know if you've left a recent review and we'll be sure to find a way to reward you in the near future or on your next detail.", 
+        "img": "images/customers/reviews.jpg", 
+        "icon": "icon-pricetag"}],
+
+    "sections": [
+        {"html": "<h3>Please consider submitting feedback to the following:</h3>"},
+        {"text": "<strong><a href=\"||A URL HERE||\">Google</a></strong>,<strong><a>Yelp</a></strong>"},
+        {"html": "<h1>Review Directly</h1><p>Want to leave a review directly? Please e-mail us</p><sub>Note: We will anonymize your first and last name when you send reviews via e-mail</sub>"}
+    ]
+}

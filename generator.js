@@ -1,24 +1,28 @@
-//System
+// Version 
+// v1.1.3
+
+//system
 const { lstatSync, readdirSync } = require('fs');
 const { join } = require('path');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 
-//general libraries
+
+//libs
+const Handlebars = require('handlebars');
 const _ = require('lodash');
-
+const Jimp = require('jimp'); // server img resizer
+const chalk = require('chalk');
 //specialized
-var Handlebars = require('handlebars');
-var moment = require('moment');
+const moment = require('moment');
 
-//external vars and scripts
+// external vars and scripts
 var data = require('./data');
-var tos = require('./tos');
 
 
 
-
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+// Register all Handlebars helpers
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) { //logic helper
     switch (operator) {
         case '==':
             return (v1 == v2) ? options.fn(this) : options.inverse(this);
@@ -44,7 +48,7 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
-Handlebars.registerHelper('urlize', function(item) {
+Handlebars.registerHelper('urlize', function(item) { //turn this into a url helper
     return fn_BuildSlugSegment(item)
 });
 // Handlebars.registerHelper('times', function(n, block) {
@@ -53,7 +57,7 @@ Handlebars.registerHelper('urlize', function(item) {
 //         accum += block.fn(i);
 //     return accum;
 // });
-Handlebars.registerHelper('times', function(n, block) {
+Handlebars.registerHelper('times', function(n, block) { //do it this many times helper
     var accum = '';
     for(var i = 0; i < n; ++i) {
         block.data.index = i;
@@ -63,9 +67,18 @@ Handlebars.registerHelper('times', function(n, block) {
     }
     return accum;
 });
-Handlebars.registerHelper('random', function(item) {
-    // console.log(item);
+Handlebars.registerHelper('random', function(item) { //choose random from array helper
     return _.sampleSize(item, 1);
+});
+Handlebars.registerHelper('timg', function(item) { //append -timg helper
+    var re_imgmeta = /(.+)\.(.+)$/gi.exec(item);
+    // console.log("TIMG: " + re_imgmeta[1] + "-timg." + re_imgmeta[2])
+    return re_imgmeta[1] + "-timg." + _.toLower(re_imgmeta[2]);
+});
+Handlebars.registerHelper('summary', function(item) { //summarizing helper
+    var l_summary = item.split(' ')
+    l_summary = l_summary.slice(0,100);
+    return _.join(l_summary, ' ') + "..."
 });
 
 
@@ -79,9 +92,7 @@ var mainpage_order = ['head','topbar','header','nav','carousel','workingprocess'
 var servicepage_order = ['head','topbar','header','nav','servicedetails','ticker','footer','scripts']
 var gallerypage_order = ['head','topbar','header','nav','gallery','projects','testimonials','ticker','footer','scripts'] //,'temp'
 var project_order = ['head','topbar','header','nav','page','testimonials','ticker','footer','scripts'] // 'gallerymini'
-var reviews_order = ['head','topbar','header','nav','note','page','testimonials','ba-ticker','footer','scripts']
-var tos_order = ['head','topbar','header','nav','page','testimonials','footer','scripts']
-
+var blog_order = ['head','topbar','header','nav','news-right-sidebar','ticker','footer','scripts']
 
 
 
@@ -159,7 +170,6 @@ const isDirectory = source => lstatSync(source).isDirectory()
 const getDirectories = source =>
   readdirSync(source).map(name => join(source, name)).filter(isDirectory)
 
-
 // Build array of dirs
 var projectdirs = getDirectories(process.cwd() + "/images/projects")
 // console.log(projectdirs)
@@ -176,29 +186,42 @@ projectdirs.forEach(element => {
     } else {
         jsonfile = {}; //give blank file
     }
-
-    // files returned as array of files in dir
-    var files = fs.readdirSync(element, {encoding: 'utf8', withFileTypes: true});
-
     //grab text from text.txt if it exists
     var text = fn_TryReadFile(element + '/text.txt')
 
-    var pics =  _.filter(files, function(o) {
-        // filter out any files that are not images
-        return /\.png|\.jpeg|\.jpg/gi.test(o.name);
-    })
+    // read all files in the dir
+    var files = fs.readdirSync(element, {encoding: 'utf8', withFileTypes: true});
+    files = files.map(o => { //map to plain array of filenames only
+        return o.name;
+    });
+
+    // filter all non-images and thumnail images
+    var pics = _.filter(files, function(o) {
+        return /\.png|\.jpeg|\.jpg/gi.test(o);
+    });
+    // console.log(files)
+    pics = _.filter(pics, function(o) {
+        return !/\-timg/gi.test(o);
+    });
+    //make thumbnails for all project images
+    pics.forEach(imgfile => {
+        if (imgfile) {
+            fn_makethumbnail(element + "\\" + imgfile)
+        }
+    });
         
 
     // Find the main image
     var mainimg = ""
     pics.forEach(o => {
-        if (o.name.indexOf('main.') != -1) { 
-            // console.log(o.name)
-            mainimg = o.name 
+        if (_.includes(o,'main')) { 
+            mainimg = o;
+            return;
         }
-    });        
+    });
     if (mainimg == "") {
-        mainimg = pics[0].name;
+        // console.log(pics)
+        mainimg = pics[0];
     }
 
     // Save to data.projects array
@@ -211,11 +234,11 @@ projectdirs.forEach(element => {
         dir: l_name[0],
         name: l_name[1],
         mainimg: mainimg,
-        img: pics[0].name,
-        pics: _.clone(_.sortBy(pics,"name")),
+        img: pics[0],
+        pics: _.clone(_.sortBy(pics)),
         text: text
     }
-    data.projects.push(_.merge({},l_project,jsonfile));
+    data.projects.push(_.merge({},l_project,jsonfile)); //merge any Data.json file in the folder, prefering the staticly set data
 });
 // console.log(data.projects)
 
@@ -225,6 +248,7 @@ data.recentprojects = _.orderBy(data.projects, function(o) {
     return new moment(o.date);
 }, ['desc']);
 data.recentprojects = data.recentprojects.slice(0,3)
+// console.log(data.recentprojects)
 
 // Actually build EACH page project page and write to disk
 data.projects.forEach( element => {
@@ -232,7 +256,7 @@ data.projects.forEach( element => {
     data.page.title = element.name + " - " + element.date_human    
     data.gallerymini = element.pics.map(obj => {
         return {
-           img: obj.name,
+           img: obj,
            dir: element.dir
         }
     });
@@ -240,122 +264,151 @@ data.projects.forEach( element => {
     //build sections
     data.page.sections = [element,{gallerymini: data.gallerymini}]
     data.img = element.pics[0]
-
-    var page = fn_buildpage(project_order, data)
-    fs.writeFile(fn_BuildSlugSegment(element.date_machine + "-" + element.name) + ".html", page, function(err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log(element.name + " page written to disk");
-    });
+    data.filename = fn_BuildSlugSegment(element.date_machine + "-" + element.name);
+    fn_buildpage(project_order, data);
 });
+
+
+//build projects blog
+data.projects = _.reverse(data.projects);
+data.filename = "projects";
+data.page.title = data.companyname + " - " + data.filename
+fn_buildpage(blog_order, data);
 
 
 //build top level gallery
 data.page.title = data.companyname + " - Gallery"
-var page = fn_buildpage(gallerypage_order, data)
-fs.writeFile("gallery.html", page, function(err) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log("gallery page written to disk");
-});
+data.filename = "gallery"
+fn_buildpage(gallerypage_order, data)
+
 
 //build main page
-    //Do cities pages here?
 data.page.title = data.companyname + " - " + data.city
-var mainpage = fn_buildpage(mainpage_order, data)
-fs.writeFileSync("index.html", mainpage, function(err) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log("main page written to disk");
-});
+data.filename = "index"
+fn_buildpage(mainpage_order, data)
+
 
 //build supplimental service pages
 data.services.forEach(element => {
-    data.page.title = data.companyname + " - " + element.name
-    var page = fn_buildpage(servicepage_order, data, element)
-    fs.writeFile(fn_BuildSlugSegment(element.name) + ".html", page, function(err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log(element.name + " page written to disk");
-    });
+    data.page.title = data.companyname + " - " + element.name;
+    data.filename = fn_BuildSlugSegment(element.name);
+    fn_buildpage(servicepage_order, data, element);
 });
 
 
-//build reviews
-data.page.title = data.companyname + " - Reviews"
-data.note = [{label: "<span>Get</span> Rewarded", text: "Your feedback helps others and encourages us to do even better. Thank you.<br><br>Please let us know if you've left a recent review and we'll be sure to find a way to reward you in the near future or on your next detail.", img: "images/customers/reviews.jpg", icon: "icon-pricetag"}]
-data.page.sections = [
-    {html: '<h3>Please consider submitting feedback to the following:</h3>'},
-    {text: '<strong><a href="">Google</a></strong>,<strong><a>Yelp</a></strong>'},
-    {html: '<h1>Review Directly</h1><p>Want to leave a review directly? Please e-mail us at: ' + data.contactemail + '</p><sub>Note: We will anonymize your first and last name when you send reviews via e-mail</sub>'},
-    ]
-var page = fn_buildpage(reviews_order, data)
-fs.writeFile("reviews.html", page, function(err) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log("reviews page written to disk");
+//build reviews and any other pages in ./generatorpages
+var files = fs.readdirSync(process.cwd() + "/generatorpages", {encoding: 'utf8', withFileTypes: true});
+
+generatorpagesarray =  _.filter(files, function(o) {
+    // filter out any files that are not images
+    return /\.json|\.JSON/gi.test(o.name);
 });
+// console.log(generatorpagesarray);
+for (let index = 0; index < generatorpagesarray.length; index++) {
+    const element = generatorpagesarray[index];
+    
+    var pagejson = fs.readFileSync(process.cwd() + '/generatorpages/' + element.name , 'utf8');
+    var parsedjson = JSON.parse(pagejson);
+    // console.log(JSON.parse(pagejson));
 
+    data = _.merge({},data,parsedjson);
+    data.page.sections = parsedjson.sections;
+    data.filename = element.name.substring(0, element.name.length - 5)
 
-//build tos
-for (let index = 0; index < tos.sections.length; index++) {
-    const element = tos.sections[index].text;
-    tos.sections[index].text = _.replace(element,/({{ \w+ }})/g, data.name) // _.replace("{{ Company }}")
+    fn_buildpage(parsedjson.order, data)
 }
-data.page.sections = tos.sections;
-data.page.title = data.companyname + " - Terms of Service"
-var page = fn_buildpage(tos_order, data)
-fs.writeFile("tos.html", page, function(err) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log("tos page written to disk");
-});
 
 
+// Finished. Log Value for Value message
+setTimeout(() => {
+    // chalkAnimation.pulse('');
+    console.log(chalk.blue('This application and site is made possible by the value for value model. Ask yourself what this site was worth to you this year. Was worth $30 or was it worth $3000?'));
+    console.log(chalk.blue('Send that amount to http://paypal.me/chunjee. Your financial support directly translates into updates and more free tools. Thank you!'));
+}, 1000);
 
 // /--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\
 // Functions
 // \--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/
 
+function fn_makethumbnail(para_image, para_options = {}) {
+    Jimp.read(para_image, (err, img) => {
+        if (err) return;
+        var re_imgmeta = /(.+\\)*(.+)\.(.+)$/gi.exec(para_image);
+        var img_finalpath = re_imgmeta[1] + '\\' + re_imgmeta[2] + '-timg.jpg';
+        // Jimp.AUTO
+        // ratio = orginialHeight / newHeight
+        // newWidth = orginialWidth * ratio
+
+        //cut the timg a bit if it is too tall
+        if (img.bitmap.height > img.bitmap.width) {
+            try {
+                img
+                .resize(250, Jimp.AUTO) // resize
+                .quality(90) // set JPEG quality
+                .write(img_finalpath); // save
+            } catch (error) {
+                // console.log(error)
+                return false
+            }
+            return
+        }
+        
+        try {
+            img
+            .resize(250, Jimp.AUTO) // resize
+            .quality(90) // set JPEG quality
+            .autocrop({})
+            .write(img_finalpath); // save
+        } catch (error) {
+            // console.log(error)
+            return false
+        }
+    });
+}
+
 function fn_buildpage(para_arrayofblocks,para_data,para_supplimental = "") {
     //read requested blocks from disk
     var blockarray = [];
     para_arrayofblocks.forEach(element => {
-        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8')
+        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8');
         blockarray.push(l_html);
     });
-    var l_source = '<!doctype html><html lang="en">'
+    var l_source = '<!doctype html><html lang="en">';
     for (let index = 0; index < blockarray.length; index++) {
         const element = blockarray[index];
         var l_source = l_source + '\n' + element;
     }
-    l_source = l_source + '\n</body></html>\n' // close the body and html tag
+    l_source = l_source + '\n</body></html>\n'; // close the body and html tag
 
     l_source = _.replace(l_source,/ type=\"text\/javascript\"/g,''); //zero out js definitions as they are not recommended html
 
 
     //Append supplimental data if supplied
     if (para_supplimental != "") {
-        para_data.thispage = _.clone(para_supplimental)
+        para_data.thispage = _.clone(para_supplimental);
     }
 
     // Grab the page being created and append to title (done outside as we don't know the file to write)
 
-    //Build page
+    ///Compile page and make any final changes
     var template = Handlebars.compile(l_source);
-    var result = template(para_data)
-    result = fn_SwapBackSlashes(result); // replace any backslashes
-    return result
+    var page = template(para_data);
+    page = fn_SwapBackSlashes(page); // replace any backslashes
+
+    //Write the page to disk
+    console.log("Writing " + _.toLower(para_data.filename + ".html") + " to disk");
+    fs.writeFile(_.toLower(para_data.filename + ".html"), page, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+    });
+
+    //return the page if for some reason needed (currently not)
+    return page;
 }
 
 function fn_SwapBackSlashes(para_input) {
-    return _.replace(para_input,/\\/g,'/')
+    return _.replace(para_input,/\\/g,'/');
 }
 
 function fn_BuildSlugSegment(para_text) {
@@ -373,7 +426,7 @@ function fn_TryReadFile(para_path) {
         // return false
     }
     if (l_text) {
-        return l_text
+        return l_text;
     }
-    return false
+    return false;
 }
