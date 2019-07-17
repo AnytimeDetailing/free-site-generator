@@ -31,7 +31,7 @@ Run the generator to create all pages
 
 `node generator.js`
 
-Upload all resulting html files to the web hosting of your choice.
+Upload all resulting html files to the web hosting of your choice. https://www.nearlyfreespeech.net/ is reccomended for reliability and price.
 
 
 
@@ -54,6 +54,7 @@ For all functions of the gallery to work, images should be listed 1-∞ and shou
 You can define custom pages by adding compliant `pagename`.json files in this directory. A mostly blank Terms of Service (tos.json) and Reviews (Reviews.json) exist as examples. Other ideas to complete on your own may be a signup confirmation page, FAQ, or customer preparation guide.
 
 
+------
 
 ## Value for Value
 
@@ -64,4 +65,4 @@ This project is offered to fellow professional detailers and auto businesses and
 
 ## Support
 
-Can't figure something out? Need help uploading it to the internet? Need a customization coded? I am available for a reasonable hourly rate, you can reach me via [facebook](https://www.facebook.com/shawnbrooker) or github.
+Can't figure something out? Need help uploading it to the internet? Need a customization coded? I am available for a reasonable hourly rate, you can reach me via github, [facebook](https://www.facebook.com/shawnbrooker), or [instagram](https://www.instagram.com/shawn.brooker/)
