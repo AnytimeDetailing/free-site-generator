@@ -53,6 +53,17 @@ For all functions of the gallery to work, images should be listed 1-∞ and shou
 
 You can define custom pages by adding compliant `pagename`.json files in this directory. A mostly blank Terms of Service (tos.json) and Reviews (Reviews.json) exist as examples. Other ideas to complete on your own may be a signup confirmation page, FAQ, or customer preparation guide.
 
+"page" should be used in json defined generated page order unless custom sections are not desired.
+
+
+## How it works
+
+Sites often reference business hours, prices, company name, etc multiple times, and keeping track each page up to date with the latest information can be tedeous. Templates put your computer to work keeping all data matching accross multiple pages. This template fills in flexible fields in the ./blocks directory, then arranges blocks to create each page. For example, a navigation bar at the top of the page, then the main content of the page, some testimonials, finally a misc menu at the bottom of the page. These are then written to html files for use online.
+
+For example ./generatorpages/Reviews.json defines the order as the following: `"head","topbar","header","nav","note","page","testimonials","ba-ticker","footer","scripts"`
+
+`head` and `foot` should always be used as they contain refrences to required css and js files.
+
 
 ------
 
