@@ -23,7 +23,6 @@ Download dependancies:
 The following files should be modified to reflect the site you want to start:
 
 * data.js
-* tos.js
 
 This process can be aided by a sytax highlighting editor such as Visual Studio Code: https://code.visualstudio.com/
 
