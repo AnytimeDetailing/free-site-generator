@@ -9,14 +9,15 @@ The following were minor considerations: Render copies for multiple cities/compa
 
 You must have NodeJS and npm. They are packaged together here: https://nodejs.org/en/download/
 
-Download this repo, in a command prompt or terminal after installing NodeJS and npm:
-
-`npm install AnytimeDetailing/free-site-generator`
+Download this repo
 
 Download dependancies:
 
 `npm install`
 
+Short video explaining first time setup: https://www.youtube.com/watch?v=6MIhG2abnNc
+
+Longer video detailing use and advanced features: FORTHCOMING
 
 ## Usage
 
