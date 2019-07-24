@@ -1,5 +1,5 @@
 // Version 
-// v1.1.3
+// v1.2.3
 
 //system
 const { lstatSync, readdirSync } = require('fs');
@@ -370,34 +370,38 @@ function fn_buildpage(para_arrayofblocks,para_data,para_supplimental = "") {
     //read requested blocks from disk
     var blockarray = [];
     para_arrayofblocks.forEach(element => {
-        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8');
+        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8')
         blockarray.push(l_html);
     });
-    var l_source = '<!doctype html><html lang="en">';
+    var l_source = '<!doctype html><html lang="en">'
     for (let index = 0; index < blockarray.length; index++) {
         const element = blockarray[index];
         var l_source = l_source + '\n' + element;
     }
-    l_source = l_source + '\n</body></html>\n'; // close the body and html tag
+    l_source = l_source + '\n</body></html>\n' // close the body and html tag
 
     l_source = _.replace(l_source,/ type=\"text\/javascript\"/g,''); //zero out js definitions as they are not recommended html
 
 
     //Append supplimental data if supplied
     if (para_supplimental != "") {
-        para_data.thispage = _.clone(para_supplimental);
+        para_data.thispage = _.clone(para_supplimental)
     }
 
     // Grab the page being created and append to title (done outside as we don't know the file to write)
 
     ///Compile page and make any final changes
     var template = Handlebars.compile(l_source);
-    var page = template(para_data);
+    var page = template(para_data)
+        //we do it twice because some {{ handlebars }} are embedded a second layer deep in json files
+    template = Handlebars.compile(page);
+    page = template(para_data)
+
     page = fn_SwapBackSlashes(page); // replace any backslashes
 
     //Write the page to disk
     console.log("Writing " + _.toLower(para_data.filename + ".html") + " to disk");
-    fs.writeFile(_.toLower(para_data.filename + ".html"), page, function(err) {
+    fs.writeFile(_.toLower(fn_BuildSlugSegment(para_data.filename + ".html")), page, function(err) {
         if (err) {
             return console.log(err);
         }
