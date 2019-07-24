@@ -298,12 +298,10 @@ data.services.forEach(element => {
 
 //build reviews and any other pages in ./generatorpages
 var files = fs.readdirSync(process.cwd() + "/generatorpages", {encoding: 'utf8', withFileTypes: true});
-
 generatorpagesarray =  _.filter(files, function(o) {
     // filter out any files that are not images
     return /\.json|\.JSON/gi.test(o.name);
 });
-// console.log(generatorpagesarray);
 for (let index = 0; index < generatorpagesarray.length; index++) {
     const element = generatorpagesarray[index];
     
@@ -314,8 +312,25 @@ for (let index = 0; index < generatorpagesarray.length; index++) {
     data = _.merge({},data,parsedjson);
     data.page.sections = parsedjson.sections;
     data.filename = element.name.substring(0, element.name.length - 5)
+    if (parsedjson.title) {
+        data.page.title = data.name + " - " + parsedjson.title
+    } else {
+        data.page.title = data.name + " - " + data.filename
+    }
 
-    fn_buildpage(parsedjson.order, data)
+    if (parsedjson.order) {
+        // write out any extra filenames requested
+        if (!parsedjson.fileoutputs) {
+            parsedjson.fileoutputs = [data.filename];
+        } else {
+            parsedjson.fileoutputs.push(data.filename);
+        }
+        for (let index = 0; index < parsedjson.fileoutputs.length; index++) {
+            const element = parsedjson.fileoutputs[index];
+            data.filename = _.toLower(element);
+            fn_buildpage(parsedjson.order, data)
+        }
+    }
 }
 
 
