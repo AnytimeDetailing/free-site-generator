@@ -1,5 +1,5 @@
 // Version 
-// v1.2.3
+// v1.3.0
 
 //system
 const { lstatSync, readdirSync } = require('fs');
@@ -18,7 +18,8 @@ const moment = require('moment');
 
 // external vars and scripts
 var data = require('./data');
-
+// Highly custom pages
+// none
 
 
 // Register all Handlebars helpers
@@ -82,17 +83,17 @@ Handlebars.registerHelper('summary', function(item) { //summarizing helper
 });
 
 
-
 // /--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\
 // MAIN
 // \--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/
 
 // Define the blocks to be used in each page
-var mainpage_order = ['head','topbar','header','nav','carousel','workingprocess','services','whychooseus','allservices','about','ba-ticker','footer','scripts']
-var servicepage_order = ['head','topbar','header','nav','servicedetails','ticker','footer','scripts']
-var gallerypage_order = ['head','topbar','header','nav','gallery','projects','testimonials','ticker','footer','scripts'] //,'temp'
-var project_order = ['head','topbar','header','nav','page','testimonials','ticker','footer','scripts'] // 'gallerymini'
-var blog_order = ['head','topbar','header','nav','news-right-sidebar','ticker','footer','scripts']
+var mainpage_order = ['head','topbar','header','nav','carousel','workingprocess','services','whychooseus','allservices','about','ba-ticker','footer','scripts'];
+var servicepage_order = ['head','topbar','header','nav','servicedetails','ticker','footer','scripts'];
+var gallerypage_order = ['head','topbar','header','nav','gallery','projectsrow','testimonials','ticker','footer','scripts'];
+var project_order = ['head','topbar','header','nav','page','testimonials','ticker','footer','scripts']; // 'gallerymini' now exists as subset of 'page'
+var blog_order = ['head','topbar','header','nav','news-right-sidebar','ticker','footer','scripts'];
+// var page_order = ['head','topbar','header','nav','page','testimonials','footer','scripts'];
 
 
 
@@ -161,24 +162,26 @@ if (galleryarray.length > 14) {
 
 
 
+
 // /--\--/--\--/--\
 // Build all projects pages and vars
 // \--/--\--/--\--/
 
 // Function for creating dirs array
-const isDirectory = source => lstatSync(source).isDirectory()
+const isDirectory = source => lstatSync(source).isDirectory();
 const getDirectories = source =>
-  readdirSync(source).map(name => join(source, name)).filter(isDirectory)
+  readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+
 
 // Build array of dirs
-var projectdirs = getDirectories(process.cwd() + "/images/projects")
+var projectdirs = getDirectories(process.cwd() + "/images/projects");
 // console.log(projectdirs)
 
 // list all files in each dir and create a data.projects object
 data.projects = []
 projectdirs.forEach(element => {
     var l_date = moment(element, 'YYYY.MM.DD').format()
-    var l_name = /\\projects\\[\d\.]*([\w\s]+)/gi.exec(element)
+    var l_name = /\\projects\\[\d\.]*([\w\s]+)/gi.exec(element);
     //read and parse data.json if it exists
     var jsonfile = fn_TryReadFile(element + '/data.json');
     if (jsonfile) {
@@ -187,7 +190,7 @@ projectdirs.forEach(element => {
         jsonfile = {}; //give blank file
     }
     //grab text from text.txt if it exists
-    var text = fn_TryReadFile(element + '/text.txt')
+    var text = fn_TryReadFile(element + '/text.txt');
 
     // read all files in the dir
     var files = fs.readdirSync(element, {encoding: 'utf8', withFileTypes: true});
@@ -206,7 +209,7 @@ projectdirs.forEach(element => {
     //make thumbnails for all project images
     pics.forEach(imgfile => {
         if (imgfile) {
-            fn_makethumbnail(element + "\\" + imgfile)
+            fn_makethumbnail(element + "\\" + imgfile);
         }
     });
         
@@ -252,8 +255,8 @@ data.recentprojects = data.recentprojects.slice(0,3)
 
 // Actually build EACH page project page and write to disk
 data.projects.forEach( element => {
-    data.page = {}
-    data.page.title = element.name + " - " + element.date_human    
+    data.page = {};
+    data.page.title = element.name + " - " + element.date_human;
     data.gallerymini = element.pics.map(obj => {
         return {
            img: obj,
@@ -262,8 +265,8 @@ data.projects.forEach( element => {
     });
 
     //build sections
-    data.page.sections = [element,{gallerymini: data.gallerymini}]
-    data.img = element.pics[0]
+    data.page.sections = [element,{gallerymini: data.gallerymini}];
+    data.img = element.pics[0];
     data.filename = fn_BuildSlugSegment(element.date_machine + "-" + element.name);
     fn_buildpage(project_order, data);
 });
@@ -271,29 +274,48 @@ data.projects.forEach( element => {
 
 //build projects blog
 data.projects = _.reverse(data.projects);
+data.page.title = data.name + " - Projects";
 data.filename = "projects";
-data.page.title = data.companyname + " - " + data.filename
 fn_buildpage(blog_order, data);
 
 
 //build top level gallery
-data.page.title = data.companyname + " - Gallery"
-data.filename = "gallery"
-fn_buildpage(gallerypage_order, data)
-
-
-//build main page
-data.page.title = data.companyname + " - " + data.city
-data.filename = "index"
-fn_buildpage(mainpage_order, data)
+data.page.title = data.name + " - Gallery";
+data.filename = "gallery";
+fn_buildpage(gallerypage_order, data);
 
 
 //build supplimental service pages
 data.services.forEach(element => {
-    data.page.title = data.companyname + " - " + element.name;
+    data.page.title = data.name + " - " + element.name;
     data.filename = fn_BuildSlugSegment(element.name);
     fn_buildpage(servicepage_order, data, element);
 });
+
+
+//build main page
+data.page.title = data.name + " - Home";
+data.filename = "index";
+fn_buildpage(mainpage_order, data);
+//build main page as QR
+data.filename = "qr";
+fn_buildpage(mainpage_order, data);
+//Build index for each city
+data.cities.forEach(element => {
+    data.page.title = data.name + " - " + element;
+    data.filename = "index-" + element;
+    fn_buildpage(mainpage_order, data);
+});
+
+
+//build confirmed_scheduling
+// data.page.sections = confirmed_scheduling.sections;
+// data.page.title = data.name + " - Confirmed Scheduling";
+// data.filename = "confirmed_scheduling";
+// fn_buildpage(page_order, data);
+// data.page.title = data.name + " - Service Prepatation";
+// data.filename = "service_preparation";
+// fn_buildpage(page_order, data);
 
 
 //build reviews and any other pages in ./generatorpages
@@ -311,11 +333,11 @@ for (let index = 0; index < generatorpagesarray.length; index++) {
 
     data = _.merge({},data,parsedjson);
     data.page.sections = parsedjson.sections;
-    data.filename = element.name.substring(0, element.name.length - 5)
+    data.filename = element.name.substring(0, element.name.length - 5);
     if (parsedjson.title) {
-        data.page.title = data.name + " - " + parsedjson.title
+        data.page.title = data.name + " - " + parsedjson.title;
     } else {
-        data.page.title = data.name + " - " + data.filename
+        data.page.title = data.name + " - " + data.filename;
     }
 
     if (parsedjson.order) {
@@ -328,7 +350,7 @@ for (let index = 0; index < generatorpagesarray.length; index++) {
         for (let index = 0; index < parsedjson.fileoutputs.length; index++) {
             const element = parsedjson.fileoutputs[index];
             data.filename = _.toLower(element);
-            fn_buildpage(parsedjson.order, data)
+            fn_buildpage(parsedjson.order, data);
         }
     }
 }
@@ -338,8 +360,9 @@ for (let index = 0; index < generatorpagesarray.length; index++) {
 setTimeout(() => {
     // chalkAnimation.pulse('');
     console.log(chalk.blue('This application and site is made possible by the value for value model. Ask yourself what this site was worth to you this year. Was worth $30 or was it worth $3000?'));
-    console.log(chalk.blue('Send that amount to http://paypal.me/chunjee. Your financial support directly translates into updates and more free tools. Thank you!'));
+    console.log(chalk.blue('Send that amount to \u001B[96m https://paypal.me/chunjee\u001B[94m Your financial support directly translates into updates and more free tools. Thank you!'));
 }, 1000);
+
 
 // /--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\--/--\
 // Functions
@@ -363,9 +386,9 @@ function fn_makethumbnail(para_image, para_options = {}) {
                 .write(img_finalpath); // save
             } catch (error) {
                 // console.log(error)
-                return false
+                return false;
             }
-            return
+            return true;
         }
         
         try {
@@ -376,7 +399,7 @@ function fn_makethumbnail(para_image, para_options = {}) {
             .write(img_finalpath); // save
         } catch (error) {
             // console.log(error)
-            return false
+            return false;
         }
     });
 }
@@ -385,7 +408,7 @@ function fn_buildpage(para_arrayofblocks,para_data,para_supplimental = "") {
     //read requested blocks from disk
     var blockarray = [];
     para_arrayofblocks.forEach(element => {
-        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8')
+        var l_html = fs.readFileSync(process.cwd() + '/blocks/' + element + '.html', 'utf8');
         blockarray.push(l_html);
     });
     var l_source = '<!doctype html><html lang="en">'
@@ -393,24 +416,23 @@ function fn_buildpage(para_arrayofblocks,para_data,para_supplimental = "") {
         const element = blockarray[index];
         var l_source = l_source + '\n' + element;
     }
-    l_source = l_source + '\n</body></html>\n' // close the body and html tag
-
+    l_source = l_source + '\n</body></html>\n'; // close the body and html tag
     l_source = _.replace(l_source,/ type=\"text\/javascript\"/g,''); //zero out js definitions as they are not recommended html
 
 
     //Append supplimental data if supplied
     if (para_supplimental != "") {
-        para_data.thispage = _.clone(para_supplimental)
+        para_data.thispage = _.clone(para_supplimental);
     }
 
     // Grab the page being created and append to title (done outside as we don't know the file to write)
 
     ///Compile page and make any final changes
     var template = Handlebars.compile(l_source);
-    var page = template(para_data)
+    var page = template(para_data);
         //we do it twice because some {{ handlebars }} are embedded a second layer deep in json files
     template = Handlebars.compile(page);
-    page = template(para_data)
+    page = template(para_data);
 
     page = fn_SwapBackSlashes(page); // replace any backslashes
 
@@ -442,7 +464,7 @@ function fn_TryReadFile(para_path) {
             var l_text = fs.readFileSync(para_path, 'utf8');
         }
     } catch(err) {
-        // return false
+        // return false;
     }
     if (l_text) {
         return l_text;
