@@ -7,13 +7,11 @@ The following were minor considerations: Render copies for multiple cities/compa
 
 ## Installation and Requirements
 
-You must have NodeJS and npm. They are packaged together here: https://nodejs.org/en/download/
+- You must have NodeJS and npm. They are packaged together here: https://nodejs.org/en/download/
 
-Download this repo
+- Download and extract this repository
 
-Download dependancies:
-
-`npm install`
+- Download dependancies: `npm install`
 
 Short video explaining first time setup: https://www.youtube.com/watch?v=6MIhG2abnNc
 
@@ -21,15 +19,13 @@ Longer video detailing use and advanced features: FORTHCOMING
 
 ## Usage
 
-The following files should be modified to reflect the site you want to start:
+The following files should be modified to reflect the your site:
 
-* data.js
+- data.js
 
 This process can be aided by a sytax highlighting editor such as Visual Studio Code: https://code.visualstudio.com/
 
-Run the generator to create all pages
-
-`node generator.js`
+Run the generator to create all pages: `node generator.js`
 
 Upload all resulting html files to the web hosting of your choice. https://www.nearlyfreespeech.net/ is reccomended for reliability and price.
 
@@ -62,14 +58,14 @@ Sites often reference business hours, prices, company name, etc multiple times, 
 
 For example ./generatorpages/Reviews.json defines the order as the following: `"head","topbar","header","nav","note","page","testimonials","ba-ticker","footer","scripts"`
 
-`head` and `foot` should always be used as they contain refrences to required css and js files.
+`head` and `scripts` should always be used as they contain refrences to required css and js files.
 
 
 ------
 
 ## Value for Value
 
-This project is offered to fellow professional detailers and auto businesses and is made available by the [value for value model](https://levisan.me/blog/value-for-value); in which you finacially support the project according to the level of value you have recieved from it. You can send that value to https://paypal.me/chunjee
+This project is offered to fellow professional detailers and auto businesses and is made available by the **value for value model**; in which you finacially support the project according to the level of value you have recieved from it. You can send that value to https://paypal.me/chunjee
 
 ```Please give value in the amount that you feel this product is worth, otherwise "the system" will set the price for you.```
 
