@@ -19,7 +19,7 @@ Longer video detailing use and advanced features: FORTHCOMING
 
 ## Usage
 
-The following files should be modified to reflect the your site:
+The following files should be modified to reflect your site or business:
 
 - data.js
 
@@ -34,7 +34,7 @@ Upload all resulting html files to the web hosting of your choice. https://www.n
 # Projects
 ./images/projects
 
-The directory is parsed to create subsections of the gallery akin to blog posts with images. An example folder "2019.01.01Infiniti Wash" exists as an example. Folders must always follow the pattern [YYYYMMDD-date][Postname] and contain at least one jpg, jpeg, or png image. An image with the text "main" in the name will be used as the primary image for the project.
+The directory is parsed to create subsections of the gallery akin to blog posts with images. An example folder "2019.01.01Infiniti Wash" exists as an example. Folders must always follow the pattern [YYYY.MM.DD][Postname] and contain at least one jpg, jpeg, or png image. An image with the text "main" in the name will be used as the primary image for the project.
 An optional file data.json in the individual projects directory specifies optional text, author, and service to be used in the post. By default only three of the most recent projects will be linked on the site.
 
 In the case of unfamiliarity with json files; a file named "text.txt" can be used for the text portion.
@@ -54,9 +54,9 @@ You can define custom pages by adding compliant `pagename`.json files in this di
 
 ## How it works
 
-Sites often reference business hours, prices, company name, etc multiple times, and keeping track each page up to date with the latest information can be tedeous. Templates put your computer to work keeping all data matching accross multiple pages. This template fills in flexible fields in the ./blocks directory, then arranges blocks to create each page. For example, a navigation bar at the top of the page, then the main content of the page, some testimonials, finally a misc menu at the bottom of the page. These are then written to html files for use online.
+Sites often reference business hours, prices, company name, etc multiple times, and keeping track each page up to date with the latest information can be tedeous. For example maybe you want your phone number listed on every blog entry but don't have time to edit hundreds of old posts. Templates put your computer to work keeping data synced accross multiple pages. This template fills in flexible fields in the ./blocks directory, then arranges blocks to create each page. For example, a navigation bar at the top of the page, then the main content of the page, some testimonials, finally a misc menu at the bottom of the page. These are then written to html for easy use online.
 
-For example ./generatorpages/Reviews.json defines the order as the following: `"head","topbar","header","nav","note","page","testimonials","ba-ticker","footer","scripts"`
+take a look at ./generatorpages/Reviews.json, it defines the order as follows: `"head","topbar","header","nav","note","page","testimonials","ba-ticker","footer","scripts"`
 
 `head` and `scripts` should always be used as they contain refrences to required css and js files.
 
